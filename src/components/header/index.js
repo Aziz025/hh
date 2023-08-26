@@ -1,15 +1,15 @@
 'use client'
-// import logo from '../../app/images/logo.png'
-// import searchIcon from '../../app/images/search.png'
-// import Image from 'next/image'
+import Link from "next/link"
 export default function Header () {
     return (
         <header className="header">
             <div className="container">
                 <div className="header-inner">
                     <div>
-                        <img src="/images/logo.png"/>
-                        <a>Работодателям</a>
+                        <Link href="/">
+                            <img src="/images/logo.png"/>
+                        </Link>
+                        <Link href="/resumes">Мои резюме</Link>
                         <a>Помощь</a>
                     </div>
                     <div>
@@ -17,12 +17,12 @@ export default function Header () {
                             <img src="/images/search.png"/>
                             Поиск
                         </button>
-                        <button className="header-button header-button--green">
+                        <Link className="header-button header-button--green" href="/create-resume">
                             Создать резюме
-                        </button>
-                        <button className="header-button">
+                        </Link>
+                        <Link className="header-button" href="/login">
                             Войти
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </div>
