@@ -24,3 +24,20 @@
     display: inline-block;
     margin-left: auto;
 }
+
+.tags {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.textarea {
+    height: 100px;
+    border-radius: 4px;
+    padding: 0 20px;
+    width: 100%;
+    border: 1px solid #ddd;
+    outline: none;
+    resize: none;
+    padding-top: 20px;
+}
