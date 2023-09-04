@@ -30,7 +30,7 @@ export default function AddEducation ({onChange}) {
         onChange(education)
     }, [education])
 
-    const educations = education.map((ed, index) => {
+    const educations = education.map((ed, index) => (
         <div key={index} className="education">
             <span onClick={() => removeEd(ed)}>X</span>
             <fieldset className={"fieldset fieldset-md"}>
@@ -61,7 +61,7 @@ export default function AddEducation ({onChange}) {
                 <input className="input" onChange={onChangeData} type="text" name={index + "-end_date"} value={ed.end_date}/>
             </fieldset>
         </div>
-    })
+    ))
 
    return (
             <div className="eds">
