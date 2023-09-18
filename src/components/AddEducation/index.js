@@ -65,6 +65,7 @@ export default function AddEducation ({onChange}) {
 
    return (
             <div className="eds">
+                {educations}
                 <a onClick={newEducation}>{education.length > 0 ? "Указать еще одно место обучения" : "Указать место обучения"}</a>
             </div>
     )
