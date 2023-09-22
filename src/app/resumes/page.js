@@ -1,37 +1,22 @@
-import React from 'react'; // Импорт React обязателен, если вы используете JSX
+'use client'
+import React from 'react';
 import Header from '../../components/header';
 import MyResumes from '@/components/myresumes';
+import { useEffect } from 'react';
+import { useDispatch, useSelector} from 'react-redux' 
+import { getMyResumes } from '@/app/store/slices/resumeSlice';
+import Link from 'next/link';
 
 export default function ResumePage() {
-  const resumes = [
-    {
-      position: "Менеджер отдела продаж",
-      createdAt: "25.07.2023",
-      stats: {
-        views: 0,
-        applies: 0,
-        show: 0
-      }
-    },
-    {
-      position: "Back-end Developer",
-      createdAt: "25.06.2023",
-      stats: {
-        views: 10,
-        applies: 5,
-        show: 100
-      }
-    },
-    {
-      position: "React Developer",
-      createdAt: "25.01.2023",
-      stats: {
-        views: 20,
-        applies: 10,
-        show: 200
-      }
-    }
-  ];
+  
+  const dispatch = useDispatch()
+  const resumes = useSelector((state) => state.resume.resumes)
+
+  const didMount = () => {
+    dispatch(getMyResumes())
+  }
+
+  useEffect(didMount, [])
 
   return (
     <main>
@@ -39,7 +24,7 @@ export default function ResumePage() {
       <div className="container">
         <div className="flex flex-ai-c flex-jc-sb ptb7">
           <h1>Мои резюме</h1>
-          <button className="button button-secondary-bordered">Создать резюме</button>
+          <Link className="button button-secondary-bordered" href="/create-resume">Создать резюме</Link>
         </div>
         <MyResumes resumes={resumes} />
       </div>

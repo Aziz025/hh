@@ -11,7 +11,7 @@ export default function AddEducation ({onChange}) {
 
     const newEducation = () => {
         setEducation([...education, {
-            level: "",
+            level: "Высшее",
             university_name: "",
             faculty: "",
             major: "",

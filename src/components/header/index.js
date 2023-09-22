@@ -14,14 +14,14 @@ export default function Header () {
                 <div className="header-inner">
                     <div>
                         <Link href="/">
-                            <img src="/images/logo.png"/>
+                            <img src="/images/logo.png" alt="icon"/>
                         </Link>
                         <Link href="/resumes">Мои резюме</Link>
                         <a>Помощь</a>
                     </div>
                     <div>
                         <button className="header-search">
-                            <img src="/images/search.png"/>
+                            <img src="/images/search.png" alt="icon"/>
                             Поиск
                         </button>
                         <Link className="header-button header-button--green" href="/create-resume">

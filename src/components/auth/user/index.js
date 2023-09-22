@@ -21,13 +21,17 @@ export default function UserLogin () {
         dispatch(verifyCode(email, code))
     }
 
-    useEffect(() => {
+    useEffect(()=>{
+        let timeCurrent = time
         let interval;
-        if(step === 2) {
-            interval = setInterval(() => {
-                if(time !== 0) setTime(time => time - 1)
+        if(step===2){
+            let interval = setInterval(() => {
+               if(timeCurrent > 0) {
+                    setTime(time => time-1)
+                    timeCurrent--
+                }
             }, 1000)
-        } else if(interval) {
+        }else if(interval){
             clearInterval(interval)
         }
     }, [step])
