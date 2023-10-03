@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-export default function SelectDate ({size, label, onChange}) {
+export default function SelectDate ({size, label, onChange, value}) {
     
     const [day, setDay] = useState("")
     const [month, setMonth] = useState("")
@@ -12,6 +12,15 @@ export default function SelectDate ({size, label, onChange}) {
         date.setDate(day)
         onChange(date)
     }, [day, month, year])
+
+    useEffect(() => {
+        if(value) {
+            const date = new Date(value)
+            setDay(date.getDate())
+            setMonth(date.getMonth())
+            setYear(date.getFullYear())
+        }
+    }, [value])
 
     return (
         <fieldset className={"fieldset " + size}>
