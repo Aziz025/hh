@@ -1,0 +1,26 @@
+.bg {
+    background-image: url("/images/login.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+}
+
+.auth-header>img {
+    width: 50px;
+    height: 50px;
+}
+
+.auth-header {
+    padding-top: 20px;
+}
+
+.auth-header p,
+.auth-header a  {
+    color: #fff;
+    max-width: 300px;
+}
+
+.login-page .card {
+    background-color: #fff;
+    padding-bottom: 40px;
+}
