@@ -37,7 +37,7 @@ export default function CreateResume() {
   const [position, setPosition] = useState("")
   const [salary, setSalary] = useState("")
   const [salary_type, setSalaryType] = useState("KZT")
-  const [skills, setSelectedSkills] = useState("")
+  const [skills, setSelectedSkills] = useState([])
   const [education, setEducation] = useState([])
   const [foreignLanguages, setForeignLanguages] = useState([]) 
   const [employmentTypes, setSelectedEmpTypes] = useState([])
@@ -204,7 +204,7 @@ export default function CreateResume() {
             <textarea className="textarea" placeholder="Расскажите о себе" onChange={(e) => setAbout(e.target.value)} value={about}></textarea>
         </fieldset>
 
-        <AutoCompleteTags placeholder="" type="text" label="Ключевые навыки" size="fieldset-md" items={allSkills} onSelect={onSkillsChange} selected={skills.split(",").map(item => ({name: item}))}/>
+        <AutoCompleteTags placeholder="" type="text" label="Ключевые навыки" size="fieldset-md" items={allSkills} onSelect={onSkillsChange} selected={skills.length > 0 ? skills.split(",").map(item => ({name: item})) : []}/>
       
 
         <h3>Образование</h3>
