@@ -158,10 +158,10 @@ export default function CreateVacancy() {
                 <AutoCompleteTags placeholder="" type="text" label="Ключевые навыки" size="fieldset-md fieldset-vertical" items={allSkills} onSelect={onSkillsChange} selected={skills.length > 0 ? skills.split(",").map(item => ({name: item})) : []}/>
 
                 <fieldset className="fieldset-vertical fieldset-md">
-                    <label>Опыт работы</label>
+                    <label>Занятость</label>
                     <div>
                         {empTypes.map(et => <div className="radio" key={et.id}>
-                            <input type="radio" name="exp" value={et.id} onChange={(e) => setEmploymentType(e.target.value)} />
+                            <input type="radio" name="empType" value={et.id} onChange={(e) => setEmploymentType(e.target.value)} />
                             <label>{et.name}</label>
                         </div>)}
                     </div>

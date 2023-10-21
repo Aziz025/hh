@@ -22,10 +22,10 @@ export default function Header () {
                         <a>Помощь</a>
                     </div>
                     <div>
-                        <button className="header-search">
+                        <Link className="header-search" href="/search/vacancy/advanced">
                             <img src="/images/search.png" alt="icon"/>
                             Поиск
-                        </button>
+                        </Link>
                         {currentUser && currentUser.role && currentUser.role.name === 'manager' && <Link className="header-button header-button--green" href="/create-vacancy"> Создать вакансию </Link>}
                         {currentUser && currentUser.role && currentUser.role.name !== 'manager' && <Link className="header-button header-button--green" href="/create-resume"> Создать резюме </Link>}
 
