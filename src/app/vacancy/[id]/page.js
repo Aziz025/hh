@@ -1,22 +1,47 @@
 'use client'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../../../components/header';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { getVacancyById } from '@/app/store/slices/vacancySlice'
 import { useParams } from 'next/navigation';
+import { getMyResumes } from '@/app/store/slices/resumeSlice';
+import { createApply, getEmployeeApplies } from '@/app/store/slices/applySlice';
 export default function VacancyPage() {
     
     const dispatch = useDispatch()
     const {id} = useParams()
     const vacancy = useSelector(state => state.vacancy.vacancy)
     const currentUser = useSelector(state => state.auth.currentUser)
+    const resumes = useSelector(state => state.resume.resumes)
+    const applies = useSelector(state => state.apply.applies)
+
+    const [resumeId, setResume] = useState()
+
+    useEffect(() => {
+      if(resumes[0]) {
+        setResume(resumes[0].id)
+      }
+    }, [resumes])
+
     const didMount = () => {
         dispatch(getVacancyById(id))
+        dispatch(getMyResumes())
+        dispatch(getEmployeeApplies())
     }
 
     useEffect(didMount, [])
     
+    const handleApply = () => {
+      dispatch(createApply({
+        resumeId,
+        vacancyId: id
+      }))
+    }
+
+    let isApplied = applies.some(item => item.vacancyId === id * 1)
+
+
     let skills = []
     if(vacancy.skills) skills = vacancy.skills.split(",")  
 
@@ -32,7 +57,15 @@ export default function VacancyPage() {
             <p>{vacancy.salary_from && `от ${vacancy.salary_from}`} {vacancy.salary_to &&  `до ${vacancy.salary_to}`} {vacancy.salary_type}</p>
             {vacancy.experience && <p>Требуемый опыт работы: {vacancy.experience.duration}</p>}
             {vacancy.employmentType && <p>Тип занятости: {vacancy.employmentType.name}</p>}
-            {currentUser && currentUser.id === vacancy.userId && <button className='button button-primary'>Откликнуться</button>}
+            {
+              currentUser && currentUser.role.name === 'employee' && (
+                <select className="input mtb4" value={resumeId} onChange={(e) => setResume(e.target.value)} style={{maxWidth: '200px'}}>
+                  {resumes.map(item => (<option key={item.id} value={item.id}>{item.position}</option>))}
+                </select>
+              )
+            }
+            {currentUser && currentUser.id !== vacancy.userId && !isApplied && <button className='button button-primary' onClick={handleApply}>Откликнуться</button>}
+            {currentUser && currentUser.id !== vacancy.userId && isApplied && <Link className='button button-primary' style={{maxWidth: '200px'}} href="/applies">Смотреть отклик</Link>}
         </div>
         
         {vacancy.company && <p className='secondary mt7'><b>{vacancy.company.name}</b></p>}
@@ -44,7 +77,7 @@ export default function VacancyPage() {
 
         <h3 className='mt7'>Ключевые навыки</h3>
         
-        {skills.map(skills => (<span className='tag mr4'>{skills}</span>))}
+        {skills.map((skill, index) => (<span key={`${skill}-${index}`} className='tag mr4'>{skill}</span>))}
 
       </div>
     </main>
