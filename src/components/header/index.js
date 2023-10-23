@@ -4,9 +4,11 @@ import Link from "next/link"
 import { logOut, authorize } from '@/app/store/slices/authSlice'
 import { useEffect } from 'react'
 import jwt_decode from 'jwt-decode'
+import { useRouter } from 'next/navigation'
 export default function Header () {
 
     const dispatch = useDispatch()
+    const router = useRouter()
 
     const isAuth = useSelector((state) => state.auth.isAuth)
     const currentUser = useSelector((state) => state.auth.currentUser)
@@ -49,7 +51,7 @@ export default function Header () {
                         { !isAuth && <Link className="header-button" href="/login">
                             Войти
                         </Link>}
-                        { isAuth && <a className="header-button" onClick={() => dispatch(logOut())}>
+                        { isAuth && <a className="header-button" onClick={() => dispatch(logOut(router))}>
                             Выйти
                         </a>}
                     </div>

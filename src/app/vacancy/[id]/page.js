@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getVacancyById } from '@/app/store/slices/vacancySlice'
 import { useParams } from 'next/navigation';
 import { getMyResumes } from '@/app/store/slices/resumeSlice';
-import { createApply, getEmployeeApplies } from '@/app/store/slices/applySlice';
+import { createApply, getEmployeeApplies, getVacancyApplies } from '@/app/store/slices/applySlice';
 export default function VacancyPage() {
     
     const dispatch = useDispatch()
@@ -26,9 +26,16 @@ export default function VacancyPage() {
 
     const didMount = () => {
         dispatch(getVacancyById(id))
+    }
+    
+    useEffect(() => {
+      if(currentUser && currentUser.role.name === 'employee') {
         dispatch(getMyResumes())
         dispatch(getEmployeeApplies())
-    }
+      } else if(currentUser) {
+        dispatch(getVacancyApplies(id))
+      }
+    }, [currentUser])
 
     useEffect(didMount, [])
     
@@ -53,19 +60,20 @@ export default function VacancyPage() {
           <Link className="button button-secondary-bordered" href={`/edit-vacancy/${vacancy.id}`}>Редактировать</Link>
         </div>}
         <div className='card mt7'>
-            <h1>{vacancy.name}</h1>
-            <p>{vacancy.salary_from && `от ${vacancy.salary_from}`} {vacancy.salary_to &&  `до ${vacancy.salary_to}`} {vacancy.salary_type}</p>
-            {vacancy.experience && <p>Требуемый опыт работы: {vacancy.experience.duration}</p>}
-            {vacancy.employmentType && <p>Тип занятости: {vacancy.employmentType.name}</p>}
-            {
-              currentUser && currentUser.role.name === 'employee' && (
-                <select className="input mtb4" value={resumeId} onChange={(e) => setResume(e.target.value)} style={{maxWidth: '200px'}}>
-                  {resumes.map(item => (<option key={item.id} value={item.id}>{item.position}</option>))}
-                </select>
-              )
-            }
-            {currentUser && currentUser.id !== vacancy.userId && !isApplied && <button className='button button-primary' onClick={handleApply}>Откликнуться</button>}
-            {currentUser && currentUser.id !== vacancy.userId && isApplied && <Link className='button button-primary' style={{maxWidth: '200px'}} href="/applies">Смотреть отклик</Link>}
+          <Link href={`/vacancy/${id}/applies`} className='link'>{applies.length} откликов</Link>
+          <h1>{vacancy.name}</h1>
+          <p>{vacancy.salary_from && `от ${vacancy.salary_from}`} {vacancy.salary_to &&  `до ${vacancy.salary_to}`} {vacancy.salary_type}</p>
+          {vacancy.experience && <p>Требуемый опыт работы: {vacancy.experience.duration}</p>}
+          {vacancy.employmentType && <p>Тип занятости: {vacancy.employmentType.name}</p>}
+          {
+            currentUser && currentUser.role.name === 'employee' && (
+              <select className="input mtb4" value={resumeId} onChange={(e) => setResume(e.target.value)} style={{maxWidth: '200px'}}>
+                {resumes.map(item => (<option key={item.id} value={item.id}>{item.position}</option>))}
+              </select>
+            )
+          }
+          {currentUser && currentUser.id !== vacancy.userId && !isApplied && <button className='button button-primary' onClick={handleApply}>Откликнуться</button>}
+          {currentUser && currentUser.id !== vacancy.userId && isApplied && <Link className='button button-primary' style={{maxWidth: '200px'}} href="/applies">Смотреть отклик</Link>}
         </div>
         
         {vacancy.company && <p className='secondary mt7'><b>{vacancy.company.name}</b></p>}
